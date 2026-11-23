@@ -9,13 +9,15 @@ int main(int argc, char* argv[])
     rclcpp::init(argc, argv);
 
     // Create the stand-in robot node
-    auto node = std::make_shared<gp1_patrol::StandInRobotNode>();
+    auto node{std::make_shared<gp1_patrol::StandInRobotNode>()};
 
     // Keep the node running and execute its callbacks
     rclcpp::spin(node);
 
-    // Shut down ROS 2
-    rclcpp::shutdown();
+    if (rclcpp::ok())
+    {
+        rclcpp::shutdown();
+    }
 
     return 0;
 }

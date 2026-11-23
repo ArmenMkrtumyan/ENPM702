@@ -1,6 +1,7 @@
 #pragma once
-
+#include <chrono>
 #include <cstddef>
+#include <functional>
 #include <rclcpp/rclcpp.hpp>
 
 #include "gp1_interfaces/msg/inspection_report.hpp"
@@ -11,7 +12,16 @@ namespace gp1_patrol
     
   
     public:
-      explicit PatrolLogNode();
+      
+      PatrolLogNode():rclcpp::Node{"patrol_log_node"}
+
+      {
+        inspection_report_subscriber_ = create_subscription<gp1_interfaces::msg::InspectionReport>("inspection_report", 10, std::bind(&PatrolLogNode::callback_inspection_report, this, std::placeholders::_1));
+        
+        print_inspection_log_timer_= create_wall_timer(std::chrono::seconds{2}, std::bind(&PatrolLogNode::callback_print_inspection_log_timer, this));
+        
+      }
+
     
     
     private:

@@ -1,21 +1,11 @@
 #include "gp1_patrol/stand_in_robot_node.hpp"
-#include <functional>
-#include <chrono>
+
 #include <cmath>
 #include "gp1_patrol/geometry.hpp"
+#include "gp1_patrol/checkpoints.hpp"
+
 namespace gp1_patrol
 {
-  StandInRobotNode::StandInRobotNode():rclcpp::Node("stand_in_robot")
-    // Your constructor goes here.
-    {
-      command_velocity_subscriber_ = create_subscription<geometry_msgs::msg::Twist>("cmd_vel", 10, std::bind(&StandInRobotNode::callback_command_velocity, this, std::placeholders::_1));
-      odometry_publisher_=create_publisher<nav_msgs::msg::Odometry>("odometry/filtered", 10);
-      scan_publisher_=create_publisher<sensor_msgs::msg::LaserScan>("scan", 10);
-
-      last_time_updated_ = (*this).now();
-      odometry_timer_ = create_wall_timer(std::chrono::milliseconds(50), std::bind(&StandInRobotNode::callback_odometry_timer, this));
-      scan_timer_ = create_wall_timer(std::chrono::milliseconds(200), std::bind(&StandInRobotNode::callback_scan_timer, this));
-    }
 
 
 
@@ -29,8 +19,8 @@ namespace gp1_patrol
 
     void StandInRobotNode::callback_odometry_timer()
     {
-        auto time_now = (*this).now();
-        double elapsed_time = (time_now - last_time_updated_).seconds();
+        auto time_now{(*this).now()};
+        double elapsed_time{(time_now - last_time_updated_).seconds()};
         last_time_updated_ = time_now;
         x_ = x_+ linear_velocity_ * std::cos(yaw_) * elapsed_time;
         y_ = y_+ linear_velocity_ * std::sin(yaw_) * elapsed_time;
@@ -67,12 +57,12 @@ namespace gp1_patrol
         scan_msg.header.frame_id = "base_link";
         scan_msg.ranges = {kFarRangeM, kFarRangeM, kFarRangeM};
 
-        int current_near_checkpoint = -1;
+        int current_near_checkpoint{-1};
 
-        for (std::size_t i = 0; i < kCheckpoints.size(); ++i)
+        for (std::size_t i{0}; i < kCheckpoints.size(); ++i)
           {
-            const auto& checkpoint = kCheckpoints[i];
-            auto distance_bw_robot_and_scan = distance_between(x_, y_, checkpoint.x, checkpoint.y);
+            const auto& checkpoint{kCheckpoints[i]};
+            auto distance_bw_robot_and_scan{distance_between(x_, y_, checkpoint.x, checkpoint.y)};
 
             if (distance_bw_robot_and_scan <= kNearDistanceM)
               {

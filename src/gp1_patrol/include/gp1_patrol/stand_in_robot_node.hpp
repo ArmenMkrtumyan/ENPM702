@@ -40,6 +40,9 @@ class StandInRobotNode:public rclcpp::Node{
 
         rclcpp::Time last_time_updated_;
 
+        int last_near_checkpoint_{-1};
+
+
 };
 
 

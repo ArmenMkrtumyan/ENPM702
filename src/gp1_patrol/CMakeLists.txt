@@ -51,7 +51,7 @@ ament_target_dependencies(stand_in_robot_exe rclcpp geometry_msgs nav_msgs
 # ament_target_dependencies(operator_exe rclcpp gp1_interfaces)
 
 # TODO (R2, R5, R6): uncomment, and delete the executables you have not written yet.
-install(TARGETS stand_in_robot_exe 
+install(TARGETS stand_in_robot_exe
  DESTINATION lib/${PROJECT_NAME})
 
 # install(TARGETS stand_in_robot_exe patrol_single_exe patrol_exe mission_exe

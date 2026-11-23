@@ -11,7 +11,7 @@ namespace gp1_patrol
       command_velocity_subscriber_ = create_subscription<geometry_msgs::msg::Twist>("cmd_vel", 10, std::bind(&StandInRobotNode::callback_command_velocity, this, std::placeholders::_1));
       odometry_publisher_=create_publisher<nav_msgs::msg::Odometry>("odometry/filtered", 10);
       scan_publisher_=create_publisher<sensor_msgs::msg::LaserScan>("scan", 10);
-          
+
       last_time_updated_ = (*this).now();
       odometry_timer_ = create_wall_timer(std::chrono::milliseconds(50), std::bind(&StandInRobotNode::callback_odometry_timer, this));
       scan_timer_ = create_wall_timer(std::chrono::milliseconds(200), std::bind(&StandInRobotNode::callback_scan_timer, this));
@@ -35,9 +35,9 @@ namespace gp1_patrol
         x_ = x_+ linear_velocity_ * std::cos(yaw_) * elapsed_time;
         y_ = y_+ linear_velocity_ * std::sin(yaw_) * elapsed_time;
         yaw_ = wrap_angle(yaw_+ angular_velocity_ * elapsed_time);
-        
+
         nav_msgs::msg::Odometry odometry_msg{};
-        
+
         odometry_msg.header.stamp = time_now;
         odometry_msg.header.frame_id = "odom";
         odometry_msg.child_frame_id = "base_link";

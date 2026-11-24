@@ -17,8 +17,8 @@ AI gemini ai was used to understand concepts and structure. Inquires how functio
 - **Reviewed:** All the changes of other team members. Given them comments via github and confirmed
 Pull Requests before they were merged
 
-## Member C:
-## Member C: <your full name>
+
+## Member C: Mubarak Babalola
 
 - **Wrote:** `mission_node` and `operator_node` (R6) with their headers, sources, `*_main.cpp` files and CMake entries (`mission_exe`, `operator_exe`); `robots_launch.py` and `patrol_launch.py` (R7); `run_demo.sh` and `evidence/demo.log` (R8); the Doxygen comments for these files; and my sections of `README.md`.
 - **Tested:**

@@ -1,7 +1,7 @@
 /**
  * @file navigation_node.cpp
  * @author Armen Mkrtumyan
- * @brief // TODO add the bried
+ * @brief The methods of NavigationNode
  */
 
 #include "gp1_patrol/navigation_node.hpp"
@@ -16,10 +16,10 @@
 
 namespace gp1_patrol {
     namespace {
-        constexpr double heading_tolerance_rad{0.1};
-        constexpr double turn_speed_rps{0.5};
-        constexpr double drive_speed_mps{0.3};
-        constexpr double arrival_distance_m{0.15};
+        constexpr double heading_tolerance_rad{0.1}; ///< turn first if the heading is off by more
+        constexpr double turn_speed_rps{0.5}; ///< angular.z while turning
+        constexpr double drive_speed_mps{0.3}; ///< linear.x while driving
+        constexpr double arrival_distance_m{0.15}; ///< arrived within this distance
     }
 
     void NavigationNode::odometry_callback(const nav_msgs::msg::Odometry &msg) {

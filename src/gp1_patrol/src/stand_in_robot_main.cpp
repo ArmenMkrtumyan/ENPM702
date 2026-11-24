@@ -1,3 +1,16 @@
+/**
+ * @file stand_in_robot_main.cpp
+ * @author Sagar Vijayakumar
+ * @brief Entry point for the stand-in robot ROS 2 node.
+ *
+ * This file initializes the ROS 2 communication system, creates
+ * an instance of StandInRobotNode, and starts the ROS 2 executor
+ * to process subscriber and timer callbacks.
+ *
+ * The node remains active while the executor is spinning.
+ * When execution stops, the program shuts down ROS 2 if it
+ * is still running and exits.
+ */
 #include <memory>
 #include <rclcpp/rclcpp.hpp>
 

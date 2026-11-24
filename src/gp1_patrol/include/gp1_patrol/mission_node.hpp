@@ -45,24 +45,24 @@ namespace gp1_patrol {
         /**
          * @brief stores newest scan
          * 
-         * @param msg the scan recieved. 
+         * @param msg the scan received. 
          */
         void on_scan(const sensor_msgs::msg::LaserScan& msg);
 
         /**
          * @brief decides the results of each checkpoint and publish report.
          * 
-         * @param msg arrival msg that triggeres inspection 
+         * @param msg arrival msg that triggers inspection 
          */
         void on_arrival(const gp1_interfaces::msg::Arrival& msg);
 
-        //ranges under this values indicates closed in m
+        /// ranges under this values indicates closed in m
         static constexpr float kShortRange_m{1.0F};
 
-        /// @brief recieves scans
+        /// @brief receives scans
         rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr scan_subscription_;
 
-        /// @brief recieves arrival msgs
+        /// @brief receives arrival msgs
         rclcpp::Subscription<gp1_interfaces::msg::Arrival>::SharedPtr arrival_subscription_;
 
         /// @brief sends reports

@@ -4,12 +4,12 @@
  * @brief methods for missionnode
  */
 
- #include "gp1_patrol/mission_node.hpp"
+#include "gp1_patrol/mission_node.hpp"
 
- #include <iomanip>
- #include <string>
+#include <iomanip>
+#include <string>
 
- namespace gp1_patrol {
+namespace gp1_patrol {
 
     using gp1_interfaces::msg::Arrival;
     using gp1_interfaces::msg::InspectionReport;
@@ -20,7 +20,7 @@
 
     void MissionNode::on_arrival(const Arrival& msg) {
         if (latest_scan_.ranges.empty()) {
-            RCLCPP_WARN_STREAM(get_logger(), "arrival at checkpoint " << msg.checkpoint_id << "but no scan recieved yet");
+            RCLCPP_WARN_STREAM(get_logger(), "arrival at checkpoint " << msg.checkpoint_id << " but no scan received yet");
 
             return;
         }
@@ -51,4 +51,4 @@
                                                         << std::setprecision(1) << range_m << " m");
     }
     
- } // namespace gp1_patrol 
+} // namespace gp1_patrol 

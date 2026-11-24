@@ -1,13 +1,13 @@
 /**
  * @file operator_node.cpp
  * @author mbabalol
- * @brief Mthods for OperatorNodes. 
+ * @brief Methods for OperatorNodes. 
  * 
  */
 
 #include "gp1_patrol/operator_node.hpp"
 
- namespace gp1_patrol {
+namespace gp1_patrol {
 
     using gp1_interfaces::msg::StopCommand;
 
@@ -32,4 +32,4 @@
         RCLCPP_INFO_STREAM(get_logger(), "sent " << label << " (" << reason << ")");
     }
 
- } //namespace pg1_patrol
+} // namespace gp1_patrol

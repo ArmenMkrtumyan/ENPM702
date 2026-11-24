@@ -5,16 +5,17 @@
  * 
  */
 
- #pragma once
+#pragma once
 
- #include <string>
- #include <functional>
- #include <chrono>
+#include <string>
+#include <functional>
+#include <chrono>
+#include <cstdint>
 
- #include <gp1_interfaces/msg/stop_command.hpp>
- #include <rclcpp/rclcpp.hpp>
+#include <gp1_interfaces/msg/stop_command.hpp>
+#include <rclcpp/rclcpp.hpp>
 
- namespace gp1_patrol{
+namespace gp1_patrol{
 
     class OperatorNode : public rclcpp::Node {
         public:
@@ -67,4 +68,4 @@
         rclcpp::TimerBase::SharedPtr resume_timer_{};
     };
 
- } //namespace gp1_patrol
+} //namespace gp1_patrol

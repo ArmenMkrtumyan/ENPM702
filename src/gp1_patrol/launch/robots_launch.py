@@ -22,7 +22,7 @@ def make_robot(namespace, condition=None) :
     )
 
 def generate_launch_description():
-    two_robots = DeclareLaunchArgument("two robots", default_value="false", description="startrobot_2 as well as robot_1",)
+    two_robots = DeclareLaunchArgument("two_robots", default_value="false", description="startrobot_2 as well as robot_1",)
     
     second_robot = IfCondition(LaunchConfiguration("two_robots")) #condition states two robots
 

@@ -1,3 +1,9 @@
+/**
+ * @file patrol_log_node.cpp
+ * @author Sagar Vijayakumar
+ * @brief The methods of PatrolLogNode (R3)
+ */
+
 #include "gp1_patrol/patrol_log_node.hpp"
 
 #include <thread>
@@ -58,4 +64,4 @@ namespace gp1_patrol
 
 
   
-}
+} // namespace gp1_patrol

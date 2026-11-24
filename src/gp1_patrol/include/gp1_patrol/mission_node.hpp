@@ -29,7 +29,7 @@ namespace gp1_patrol {
     class MissionNode : public rclcpp::Node {
         public:
         /**
-         * @brief Construct a new Mission Node object and its publisher and 2 subscribition.
+         * @brief Construct a new Mission Node object and its publisher and 2 subscription.
          * 
          */
         MissionNode() : rclcpp::Node{"mission_node"}, 

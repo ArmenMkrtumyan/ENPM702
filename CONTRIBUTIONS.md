@@ -30,5 +30,5 @@ Pull Requests before they were merged
 ## Member C: Mubarak Babalola
 
 - **Wrote:** `mission_node` and `operator_node` (R6) with their headers, sources, `*_main.cpp` files and CMake entries (`mission_exe`, `operator_exe`); `robots_launch.py` and `patrol_launch.py` (R7); `run_demo.sh` and `evidence/demo.log` (R8); the Doxygen comments for these files; and my sections of `README.md`.
-- **Tested:**
+- **Tested:** `mission_node` with fake scan and arrival messages (the four results); `operator_node` timing (STOP at about 13 s, RESUME at about 18 s); the launch files with `ros2 node list` for one robot, two robots and no operator.
 -  **Reviewed:** R1, R2 and R3 (Member A's interface package, `stand_in_robot_node` and `patrol_log_node`). I pulled the branch directly, built it, and read the code while building my own parts on top of it, so I could understand and review it at the same time.

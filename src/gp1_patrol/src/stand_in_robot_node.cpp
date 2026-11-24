@@ -1,17 +1,8 @@
 /**
  * @file stand_in_robot_node.cpp
  * @author Sagar Vijayakumar
- * @brief Implements the StandInRobotNode callbacks for robot simulation.
- *
- * This file implements the velocity command subscriber callback,
- * odometry timer callback, and laser scan timer callback.
- *
- * The node updates the robot's simulated position and orientation
- * using commanded velocities and elapsed time. It publishes
- * odometry information and generates simulated laser scan readings
- * based on the robot's proximity to predefined checkpoints.
+ * @brief The methods of StandInRobotNode (R2)
  */
-
 
 #include "gp1_patrol/stand_in_robot_node.hpp"
 

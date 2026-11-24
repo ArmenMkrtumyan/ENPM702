@@ -1,8 +1,15 @@
+/**
+ * @file stand_in_robot_main.cpp
+ * @author Sagar Vijayakumar
+ * @brief stand_in_robot_exe (R2): runs one StandInRobotNode
+ */
+
 #include <memory>
 #include <rclcpp/rclcpp.hpp>
 
 #include "gp1_patrol/stand_in_robot_node.hpp"
 
+/// @brief Runs the stand-in robot node until Ctrl+C
 int main(int argc, char* argv[])
 {
     // Initialize ROS 2

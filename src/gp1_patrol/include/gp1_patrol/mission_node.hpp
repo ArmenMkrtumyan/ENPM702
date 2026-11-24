@@ -1,7 +1,7 @@
 /**
  * @file mission_node.hpp
  * @author mbabalola
- * @brief Declearation of MissionNode, turns attival into inpesction reports
+ * @brief Declaration of MissionNode, turns arrival into inspection reports
  * 
  */
 #pragma once

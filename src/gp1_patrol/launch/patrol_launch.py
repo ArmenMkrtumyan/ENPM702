@@ -20,6 +20,6 @@ def generate_launch_description():
     ", with_operator = ", LaunchConfiguration("with_operator"),])
 
     operator = Node(package="gp1_patrol", executable="operator_exe", 
-                    condition=IfCondition(LaunchConfiguration("with_oprator")))
+                    condition=IfCondition(LaunchConfiguration("with_operator")))
 
     return LaunchDescription([with_operator, robots, log_arguments, operator])

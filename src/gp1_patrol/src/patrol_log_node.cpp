@@ -1,3 +1,20 @@
+/**
+ * @file patrol_log_node.cpp
+ * @author Sagar Vijayakumar
+ * @brief Implements the PatrolLogNode callbacks for inspection logging.
+ *
+ * This file implements the inspection report subscriber callback
+ * and the periodic patrol log timer callback.
+ *
+ * Incoming inspection reports are classified by their result
+ * and counted as clear, blocked, door open, or door closed.
+ * Unknown inspection results generate a warning message.
+ *
+ * The timer callback introduces an intentional 1.5-second delay
+ * before logging the accumulated inspection counts.
+ * This delay is used to demonstrate blocking callback behavior
+ * in a ROS 2 executor.
+ */
 #include "gp1_patrol/patrol_log_node.hpp"
 
 #include <thread>
@@ -58,4 +75,4 @@ namespace gp1_patrol
 
 
   
-}
+} // namespace gp1_patrol

@@ -1,6 +1,6 @@
 /**
  * @file operator_main.cpp
- * @author your name (you@domain.com)
+ * @author mbabalol
  * @brief Entry point for operator_exe:
  * 
  */

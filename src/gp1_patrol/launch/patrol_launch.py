@@ -13,7 +13,7 @@ def generate_launch_description():
         description="Start operator_exe, sends STOP then Resume",
     )
 
-    robot_file = PathJoinSubstitution([FindPackageShare("gp1_patrol"), "lauch", "robots_launch.py"])
+    robot_file = PathJoinSubstitution([FindPackageShare("gp1_patrol"), "launch", "robots_launch.py"])
 
     robots = IncludeLaunchDescription(robot_file)
     log_arguments = LogInfo (msg=[ "two_robots = ", LaunchConfiguration("two_robots"),

@@ -32,15 +32,15 @@ ament_target_dependencies(stand_in_robot_exe rclcpp geometry_msgs nav_msgs
   sensor_msgs gp1_interfaces)
 
 # TODO (R5): needs patrol_single_main.cpp, navigation_node.cpp, patrol_log_node.cpp.
-# add_executable(patrol_single_exe src/patrol_single_main.cpp
-#   src/navigation_node.cpp src/patrol_log_node.cpp)
-# ament_target_dependencies(patrol_single_exe rclcpp geometry_msgs nav_msgs
-#   gp1_interfaces)
+add_executable(patrol_single_exe src/patrol_single_main.cpp
+  src/navigation_node.cpp src/patrol_log_node.cpp)
+ament_target_dependencies(patrol_single_exe rclcpp geometry_msgs nav_msgs
+  gp1_interfaces)
 
 # TODO (R5): needs patrol_main.cpp, navigation_node.cpp, patrol_log_node.cpp.
-# add_executable(patrol_exe src/patrol_main.cpp
-#   src/navigation_node.cpp src/patrol_log_node.cpp)
-# ament_target_dependencies(patrol_exe rclcpp geometry_msgs nav_msgs gp1_interfaces)
+add_executable(patrol_exe src/patrol_main.cpp
+  src/navigation_node.cpp src/patrol_log_node.cpp)
+ament_target_dependencies(patrol_exe rclcpp geometry_msgs nav_msgs gp1_interfaces)
 
 # TODO (R6): needs mission_main.cpp and mission_node.cpp.
 # add_executable(mission_exe src/mission_main.cpp src/mission_node.cpp)
@@ -51,9 +51,7 @@ ament_target_dependencies(stand_in_robot_exe rclcpp geometry_msgs nav_msgs
 # ament_target_dependencies(operator_exe rclcpp gp1_interfaces)
 
 # TODO (R2, R5, R6): uncomment, and delete the executables you have not written yet.
-install(TARGETS stand_in_robot_exe
- DESTINATION lib/${PROJECT_NAME})
-
+install(TARGETS stand_in_robot_exe patrol_single_exe patrol_exe DESTINATION lib/${PROJECT_NAME})
 # install(TARGETS stand_in_robot_exe patrol_single_exe patrol_exe mission_exe
 #   operator_exe
 #  DESTINATION lib/${PROJECT_NAME})

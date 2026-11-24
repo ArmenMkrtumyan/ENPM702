@@ -1,0 +1,26 @@
+[INFO] [1795531315.429553034] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531317.429509823] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531317.957597986] [robot_1.stand_in_robot_node]: stand-in robot near checkpoint 1
+[INFO] [1795531318.323923298] [robot_1.navigation_node]: arrived at checkpoint 1
+[INFO] [1795531318.324237173] [robot_1.mission_node]: checkpoint 1 (room): clear, range 4.0 m
+[INFO] [1795531319.429419924] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531325.015059065] [robot_1.patrol_log_node]: patrol log: clear 1, blocked 0, door open 0, door closed 0
+[INFO] [1795531327.015554166] [robot_1.patrol_log_node]: patrol log: clear 1, blocked 0, door open 0, door closed 0
+[INFO] [1795531328.520676855] [operator_node]: sent STOP (operator stop)
+[INFO] [1795531328.521105892] [robot_1.navigation_node]: STOP (operator stop) received 0.5 ms after it was sent
+[INFO] [1795531329.015211255] [robot_1.patrol_log_node]: patrol log: clear 1, blocked 0, door open 0, door closed 0
+[INFO] [1795531331.014875506] [robot_1.patrol_log_node]: patrol log: clear 1, blocked 0, door open 0, door closed 0
+[INFO] [1795531333.015009595] [robot_1.patrol_log_node]: patrol log: clear 1, blocked 0, door open 0, door closed 0
+[INFO] [1795531333.521231582] [operator_node]: sent RESUME (operator resume)
+[INFO] [1795531333.521508632] [robot_1.navigation_node]: RESUME (operator resume) received 0.4 ms after it was sent
+[INFO] [1795531335.014901696] [robot_1.patrol_log_node]: patrol log: clear 1, blocked 0, door open 0, door closed 0
+[INFO] [1795531337.015014897] [robot_1.patrol_log_node]: patrol log: clear 1, blocked 0, door open 0, door closed 0
+[INFO] [1795531339.014799935] [robot_1.patrol_log_node]: patrol log: clear 1, blocked 0, door open 0, door closed 0
+[INFO] [1795531339.143073710] [robot_1.stand_in_robot_node]: stand-in robot near checkpoint 2
+[INFO] [1795531339.711013686] [robot_1.navigation_node]: arrived at checkpoint 2
+[INFO] [1795531339.711761773] [robot_1.mission_node]: checkpoint 2 (room): blocked, range 0.6 m
+[INFO] [1795531340.308324936] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [1795531340.308517311] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [1795531340.310519061] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [1795531340.311283949] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [1795531341.015066661] [robot_1.patrol_log_node]: patrol log: clear 1, blocked 0, door open 0, door closed 0

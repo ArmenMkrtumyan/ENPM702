@@ -1,3 +1,9 @@
+/**
+ * @file stand_in_robot_node.cpp
+ * @author Sagar Vijayakumar
+ * @brief The methods of StandInRobotNode (R2)
+ */
+
 #include "gp1_patrol/stand_in_robot_node.hpp"
 
 #include <cmath>

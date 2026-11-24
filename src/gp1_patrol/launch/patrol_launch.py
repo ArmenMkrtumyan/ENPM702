@@ -17,7 +17,7 @@ def generate_launch_description():
 
     robots = IncludeLaunchDescription(robot_file)
     log_arguments = LogInfo (msg=[ "two_robots = ", LaunchConfiguration("two_robots"),
-                                  " , with_operator = ", LaunchConfiguration("with_operator"),])
+    ", with_operator = ", LaunchConfiguration("with_operator"),])
 
     operator = Node(package="gp1_patrol", executable="operator_exe", 
                     condition=IfCondition(LaunchConfiguration("with_oprator")))

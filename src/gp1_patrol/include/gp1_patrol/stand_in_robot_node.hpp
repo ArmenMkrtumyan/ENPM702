@@ -237,4 +237,4 @@ class StandInRobotNode:public rclcpp::Node{
 };
 
 
-}
+} // namespace gp1_patrol

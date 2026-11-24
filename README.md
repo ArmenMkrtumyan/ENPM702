@@ -1,3 +1,19 @@
+### R1 — Custom Interfaces
+
+`gp1_interfaces` defines three custom ROS 2 messages: `Arrival` for checkpoint arrivals, `InspectionReport` for inspection results, and `StopCommand` for emergency STOP/RESUME commands.
+
+### R2 — Stand-In Robot
+
+`stand_in_robot_node` subscribes to `cmd_vel` and simulates robot movement using linear and angular velocities.
+
+Robot updates its position and orientation every 0.05 s position and orientation and publishes `odometry/filtered`. Furthermore it publishes a three-beam `scan` every 0.2 s, returning 4.0 m by default and the predefined range when within 0.3 m of a checkpoint.
+
+### R3 — Patrol Logger
+
+`patrol_log_node` subscribes to `inspection_report` and counts clear rooms, blocked rooms, open doors, and closed doors.
+
+Every 2 s it prints the accumulated inspection counts. The callback performs 1.5 s of simulated work to demonstrate executor blocking.
+
 ### R4: navigation_node
 
 `navigation_node` drives the robot through checkpoints 1 to 4, in order, using only `odometry/filtered`.

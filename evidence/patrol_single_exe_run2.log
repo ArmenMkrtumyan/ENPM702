@@ -1,0 +1,21 @@
+[INFO] [1795531200.264566228] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531202.264830367] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531202.807033417] [robot_1.stand_in_robot_node]: stand-in robot near checkpoint 1
+[INFO] [1795531204.265307206] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531206.264991257] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531208.264640058] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531209.786750996] [operator_node]: sent STOP (operator stop)
+[INFO] [1795531210.264721046] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531210.265837834] [robot_1.navigation_node]: STOP (operator stop) received 480.3 ms after it was sent
+[INFO] [1795531212.264669885] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531217.849381217] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531218.372341930] [operator_node]: sent RESUME (operator resume)
+[INFO] [1795531219.849528206] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531219.849695681] [robot_1.navigation_node]: RESUME (operator resume) received 1477.4 ms after it was sent
+[INFO] [1795531221.849019282] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531223.849070120] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531225.141562146] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [1795531225.141878796] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [1795531225.141991371] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [1795531225.142736196] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [1795531225.849192359] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0

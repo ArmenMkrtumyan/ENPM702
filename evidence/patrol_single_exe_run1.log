@@ -1,0 +1,21 @@
+[INFO] [1795531165.491382906] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531167.491132657] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531167.962569495] [robot_1.stand_in_robot_node]: stand-in robot near checkpoint 1
+[INFO] [1795531169.491216908] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531171.494176284] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531173.491045435] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531174.984405761] [operator_node]: sent STOP (operator stop)
+[INFO] [1795531175.491213611] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531175.491719524] [robot_1.navigation_node]: STOP (operator stop) received 507.6 ms after it was sent
+[INFO] [1795531177.491137925] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531183.071672082] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531183.566107370] [operator_node]: sent RESUME (operator resume)
+[INFO] [1795531183.566967882] [robot_1.navigation_node]: RESUME (operator resume) received 0.9 ms after it was sent
+[INFO] [1795531185.071515358] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531187.071340259] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531189.071613435] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0
+[INFO] [1795531190.344587386] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [1795531190.345084523] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [1795531190.345404848] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [1795531190.346567273] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [1795531191.072526736] [robot_1.patrol_log_node]: patrol log: clear 0, blocked 0, door open 0, door closed 0

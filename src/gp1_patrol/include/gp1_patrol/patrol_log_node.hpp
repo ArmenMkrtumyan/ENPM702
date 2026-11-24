@@ -26,14 +26,12 @@ namespace gp1_patrol
        * @brief Construct a new PatrolLogNode: the inspection_report
        * subscription and the 2 s log timer
        */
-      PatrolLogNode():rclcpp::Node{"patrol_log_node"}
-
-      {
-        inspection_report_subscriber_ = create_subscription<gp1_interfaces::msg::InspectionReport>("inspection_report", 10, std::bind(&PatrolLogNode::callback_inspection_report, this, std::placeholders::_1));
-
-        print_inspection_log_timer_= create_wall_timer(std::chrono::seconds{2}, std::bind(&PatrolLogNode::callback_print_inspection_log_timer, this));
-
-      }
+      PatrolLogNode() : rclcpp::Node{"patrol_log_node"},
+          inspection_report_subscriber_{create_subscription<gp1_interfaces::msg::InspectionReport>(
+                  "inspection_report", 10,
+                  std::bind(&PatrolLogNode::callback_inspection_report, this, std::placeholders::_1))},
+          print_inspection_log_timer_{create_wall_timer(std::chrono::seconds{2},
+              std::bind(&PatrolLogNode::callback_print_inspection_log_timer, this))} {}
 
 
 

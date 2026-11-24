@@ -20,7 +20,7 @@ namespace gp1_patrol {
      * @brief Inspect a Checkpoint when robot arrives.
      * 
      * Node keeps latest laser scan, on each arrival reads middle beam and publishes inspection report
-     * which includes clear/blocked rooms, doors; open/closed door. A range under kShortRange_m coun ts as short.
+     * which includes clear/blocked rooms, doors; open/closed door. A range under kShortRange_m counts as short.
      * 
      * Topics; Subscribe(sensor_msgs/msg/LaserScan, gp1_interfaces/msg/Arrival)
      *         publish(gp1_interfaces/msg/InspectionReport)

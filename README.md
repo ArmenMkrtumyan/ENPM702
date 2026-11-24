@@ -48,3 +48,69 @@ While the log node sleeps for 1.5 seconds, the single-threaded executor cannot r
 "near checkpoint 1", but the navigation node never logged "arrived at checkpoint 1". It kept
 overshooting.
 
+### R6: mission_node
+
+`mission_node` keeps the latest `scan`. On each `Arrival` it reads the middle beam, `ranges[ranges.size() / 2]`, and publishes an `InspectionReport` with the checkpoint id, the result and the range used.
+
+For a room, a range under 1.0 m is `RESULT_BLOCKED`, otherwise `RESULT_CLEAR`. For a door, a range under 1.0 m is `RESULT_DOOR_CLOSED`, otherwise `RESULT_DOOR_OPEN`. If an `Arrival` comes before any scan, it logs a warning and publishes nothing.
+
+Its topics are relative, so a namespace applies to them: `scan`, `arrival` and `inspection_report`.
+
+### R6: operator_node
+
+`operator_node` runs at the root namespace and publishes on the absolute topic `/emergency_stop`. 13 s after it starts, a timer sends STOP with the reason `operator stop`. 5 s after that, a second timer sends RESUME with the reason `operator resume`. Each timer cancels itself after it fires, so each command is sent once. It uses timers only, no sleep.
+
+### R7: Launch files
+
+`robots_launch.py` declares `two_robots` (default `false`). The helper `make_robot(namespace, condition=None)` returns a `GroupAction` with `PushROSNamespace`, and `patrol_exe`, `stand_in_robot_exe` and `mission_exe`, with the condition on each of the three nodes. `robot_1` always starts. `robot_2` starts only when `two_robots` is true.
+
+`patrol_launch.py` includes `robots_launch.py`, declares `with_operator` (default `true`) for `operator_exe`, and prints both arguments with `LogInfo`. An argument given on the outer command, such as `two_robots:=true`, reaches the included file.
+
+### How to run
+
+From the workspace root (the folder that contains `src/`):
+
+```bash
+colcon build --packages-up-to gp1_patrol
+source install/setup.bash
+```
+
+Start the whole patrol:
+
+```bash
+ros2 launch gp1_patrol patrol_launch.py                      # robot_1 and the operator
+ros2 launch gp1_patrol patrol_launch.py two_robots:=true     # robot_1, robot_2 and the operator
+ros2 launch gp1_patrol patrol_launch.py with_operator:=false # no operator
+ros2 launch gp1_patrol patrol_launch.py --show-args          # list the arguments
+```
+
+List the running nodes from a second terminal (source the workspace there too):
+
+```bash 
+ros2 node list
+```
+
+With `two_robots:=true` it should show:
+
+``` expected
+/operator_node
+/robot_1/mission_node
+/robot_1/navigation_node
+/robot_1/patrol_log_node
+/robot_1/stand_in_robot_node
+/robot_2/mission_node
+/robot_2/navigation_node
+/robot_2/patrol_log_node
+/robot_2/stand_in_robot_node
+```
+
+To run the nodes one at a time without a launch file:
+
+```bash
+ros2 run gp1_patrol mission_exe --ros-args -r __ns:=/robot_1
+ros2 run gp1_patrol operator_exe
+```
+
+### R8: Demo
+
+`run_demo.sh` builds the workspace, runs `patrol_launch.py` and writes the output to `evidence/demo.log`.

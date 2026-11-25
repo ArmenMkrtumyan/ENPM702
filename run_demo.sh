@@ -1,5 +1,6 @@
 #!/bin/bash
 
+cd "$(dirname "$0")"
 source install/setup.bash
 mkdir -p evidence
 timeout -s INT 75 ros2 launch gp1_patrol patrol_launch.py two_robots:=true > evidence/demo.log 2>&1

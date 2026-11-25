@@ -6,17 +6,12 @@
 
 #pragma once
 
-
 #include <geometry_msgs/msg/twist.hpp>
 #include <nav_msgs/msg/odometry.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/laser_scan.hpp>
 #include <chrono>
 #include <functional>
-
-
-
-
 
 namespace gp1_patrol
 {
@@ -26,8 +21,7 @@ namespace gp1_patrol
  * the checkpoint table. Logs once each time the robot comes within 0.3 m of a
  * checkpoint.
  */
-class StandInRobotNode:public rclcpp::Node{
-
+class StandInRobotNode : public rclcpp::Node {
 
     public:
         /**
@@ -35,19 +29,17 @@ class StandInRobotNode:public rclcpp::Node{
          * the odometry and scan publishers, and the 20 Hz odometry and 5 Hz
          * scan timers. The robot starts at the origin, facing +x.
          */
-        StandInRobotNode():rclcpp::Node{"stand_in_robot_node"}
-            {
-            command_velocity_subscriber_ = create_subscription<geometry_msgs::msg::Twist>("cmd_vel", 10, std::bind(&StandInRobotNode::callback_command_velocity, this, std::placeholders::_1));
-            odometry_publisher_=create_publisher<nav_msgs::msg::Odometry>("odometry/filtered", 10);
-            scan_publisher_=create_publisher<sensor_msgs::msg::LaserScan>("scan", 10);
-
-            last_time_updated_ = (*this).now();
-            odometry_timer_ = create_wall_timer(std::chrono::milliseconds{50}, std::bind(&StandInRobotNode::callback_odometry_timer, this));
-            scan_timer_ = create_wall_timer(std::chrono::milliseconds{200}, std::bind(&StandInRobotNode::callback_scan_timer, this));
-
-            }
-
-
+        StandInRobotNode() : rclcpp::Node{"stand_in_robot_node"},
+            command_velocity_subscriber_{create_subscription<geometry_msgs::msg::Twist>(
+                    "cmd_vel", 10,
+                    std::bind(&StandInRobotNode::callback_command_velocity, this, std::placeholders::_1))},
+            odometry_publisher_{create_publisher<nav_msgs::msg::Odometry>("odometry/filtered", 10)},
+            odometry_timer_{create_wall_timer(std::chrono::milliseconds{50},
+                std::bind(&StandInRobotNode::callback_odometry_timer, this))},
+            scan_timer_{create_wall_timer(std::chrono::milliseconds{200},
+                std::bind(&StandInRobotNode::callback_scan_timer, this))},
+            scan_publisher_{create_publisher<sensor_msgs::msg::LaserScan>("scan", 10)},
+            last_time_updated_{now()} {}
 
     private:
         /**
@@ -55,7 +47,7 @@ class StandInRobotNode:public rclcpp::Node{
          *
          * @param msg The command; only linear.x and angular.z are used
          */
-        void callback_command_velocity(const geometry_msgs::msg::Twist::ConstSharedPtr msg);
+        void callback_command_velocity(const geometry_msgs::msg::Twist &msg);
         /// @brief Velocity commands, from cmd_vel
         rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr command_velocity_subscriber_;
 
@@ -90,8 +82,6 @@ class StandInRobotNode:public rclcpp::Node{
 
         int last_near_checkpoint_{-1}; ///< index of the checkpoint within 0.3 m; -1 = none
 
-
 };
-
 
 } // namespace gp1_patrol

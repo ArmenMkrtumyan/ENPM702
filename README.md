@@ -1,18 +1,66 @@
-### R1 — Custom Interfaces
+# GP1: Patrol and Inspect
 
-`gp1_interfaces` defines three custom ROS 2 messages: `Arrival` for checkpoint arrivals, `InspectionReport` for inspection results, and `StopCommand` for emergency STOP/RESUME commands.
+## Team
 
-### R2 — Stand-In Robot
+- **Member A, Sagar Vijayakumar:** `gp1_interfaces`, `stand_in_robot_node`, `patrol_log_node` (R1, R2, R3)
+- **Member B, Armen Mkrtumyan:** `navigation_node`, the two patrol executables, the timing evidence (R4, R5)
+- **Member C, Mubarak Babalola:** `mission_node`, `operator_node`, the launch files, the demo script (R6, R7)
 
-`stand_in_robot_node` subscribes to `cmd_vel` and simulates robot movement using linear and angular velocities.
+## AI use
 
-Robot updates its position and orientation every 0.05 s position and orientation and publishes `odometry/filtered`. Furthermore it publishes a three-beam `scan` every 0.2 s, returning 4.0 m by default and the predefined range when within 0.3 m of a checkpoint.
+**Member A:** AI was used (ChatGPT) for parts R1, R2, R3 to help me understand and document concepts and structures, and review code and suggest fixes. Also, it helped with creating Doxygen comments and git commands.
 
-### R3 — Patrol Logger
+**Member B:** AI was used (Claude) for parts R4 and R5 to review my code and README answers, suggest fixes wherever necessary, and help with git merges. It also polished the Doxygen comments.
 
-`patrol_log_node` subscribes to `inspection_report` and counts clear rooms, blocked rooms, open doors, and closed doors.
+**Member C:** AI (Gemini) was used to understand concepts and structure, how to write the Python launch files, and how git merge, pull and commit work. Claude was used to review and debug code and to suggest fixes for minor warnings. AI was also used to format the README for readability.
 
-Every 2 s it prints the accumulated inspection counts. The callback performs 1.5 s of simulated work to demonstrate executor blocking.
+## Build and run
+
+From the workspace root
+
+```bash
+source /opt/ros/jazzy/setup.bash
+colcon build
+source install/setup.bash
+```
+
+The whole patrol, with one robot or with two:
+
+```bash
+ros2 launch gp1_patrol patrol_launch.py
+ros2 launch gp1_patrol patrol_launch.py two_robots:=true
+```
+
+The demo: two robots for 75 s, output saved in `evidence/demo.log`:
+
+```bash
+./run_demo.sh
+```
+
+One robot without a launch file, each line in its own terminal:
+
+```bash
+ros2 run gp1_patrol stand_in_robot_exe --ros-args -r __ns:=/robot_1
+ros2 run gp1_patrol patrol_exe --ros-args -r __ns:=/robot_1
+ros2 run gp1_patrol mission_exe --ros-args -r __ns:=/robot_1
+ros2 run gp1_patrol operator_exe
+```
+
+## Member A: R1, R2, R3
+
+### R1: Custom interfaces
+
+`gp1_interfaces` defines three messages: `Arrival` for checkpoint arrivals, `InspectionReport` for inspection results, and `StopCommand` for the operator's STOP and RESUME.
+
+### R2: Stand-in robot
+
+`stand_in_robot_node` subscribes to `cmd_vel` and moves an imaginary robot with its linear and angular velocity. Every 0.05 s it updates the position and heading and publishes `odometry/filtered`. Every 0.2 s it publishes a three-beam `scan`: 4.0 m by default, or the checkpoint's range within 0.3 m of a checkpoint.
+
+### R3: Patrol log
+
+`patrol_log_node` subscribes to `inspection_report` and counts clear rooms, blocked rooms, open doors and closed doors. Every 2 s it does 1.5 s of simulated work, then prints the counts.
+
+## Member B: R4, R5
 
 ### R4: navigation_node
 
@@ -36,6 +84,8 @@ Logs: `evidence/patrol_single_exe_run1.log` to `run3.log` and `evidence/patrol_e
 | 2 | 480.3 | 0.5 |
 | 3 | 508.9 | 0.2 |
 
+**Note on the timestamps.** The logs were recorded in a VMware VM, whose system clock jumps forward about 3.6 s every 36 s. That is why the logs show gaps of about 5.6 s between patrol log lines instead of 2 s, and why in most R5 logs the RESUME appears 8.6 s after the STOP instead of 5 s. The jumps never fall between a command being sent and received, so they do not change the delays in the table or the conclusions.
+
 1. Why does the STOP wait in `patrol_single_exe`, and which callback does it wait for?
 
 Since it's a SingleThreadedExecutor, there is only one thread, so the callbacks of both nodes run
@@ -48,15 +98,16 @@ does each node’s callback join?)
 From the lecture we know that callbacks with no group join their node's default callback group. And
 since each node has its own default group, the 2 nodes end up in 2 separate groups. The
 MultiThreadedExecutor has 2 threads, so while one thread is busy in the log node's 1.5 s callback,
-the other thread runs the navigation node's STOP callback: 0.2 and 2.4 ms.
+the other thread runs the navigation node's STOP callback: 0.2 to 2.4 ms.
 
 3. Why do the navigation node’s callbacks stay in one mutually exclusive group? Say what could go wrong in a reentrant group.
 
-The navigation node's callbacks share the same variables (such as `position`, `stopped_`,
-`checkpoint_index_`). A mutually exclusive group makes sure that when one callback is working on them,
+The navigation node's callbacks share the same variables (such as position variables `x_` and `y_`).
+A mutually exclusive group makes sure that when one callback is working on them,
 the others can't access them at the same time, which would cause race conditions. In a reentrant
-group the callbacks can run at the same time. For example, the STOP callback can publish a zero
-Twist while the control callback publishes a drive command right after it, so the robot keeps moving.
+group the callbacks can run at the same time. For example, a report that arrives
+between publishing the `Arrival` and setting `waiting_for_report_` would be ignored, and the robot would
+wait at that checkpoint forever.
 
 4. Why does the robot fail to arrive in `patrol_single_exe`?
 
@@ -64,69 +115,16 @@ While the log node sleeps for 1.5 seconds, the single-threaded executor cannot r
 "near checkpoint 1", but the navigation node never logged "arrived at checkpoint 1". It kept
 overshooting.
 
-### R6: mission_node
+## Member C: R6, R7
 
-`mission_node` keeps the latest `scan`. On each `Arrival` it reads the middle beam, `ranges[ranges.size() / 2]`, and publishes an `InspectionReport` with the checkpoint id, the result and the range used.
+### R6: mission_node and operator_node
 
-For a room, a range under 1.0 m is `RESULT_BLOCKED`, otherwise `RESULT_CLEAR`. For a door, a range under 1.0 m is `RESULT_DOOR_CLOSED`, otherwise `RESULT_DOOR_OPEN`. If an `Arrival` comes before any scan, it logs a warning and publishes nothing.
+`mission_node` keeps the latest `scan`. On each `Arrival` it reads the middle beam and publishes an `InspectionReport`: under 1.0 m a room is blocked and a door is closed, otherwise the room is clear and the door is open.
 
-Its topics are relative, so a namespace applies to them: `scan`, `arrival` and `inspection_report`.
-
-### R6: operator_node
-
-`operator_node` runs at the root namespace and publishes on the absolute topic `/emergency_stop`. 13 s after it starts, a timer sends STOP with the reason `operator stop`. 5 s after that, a second timer sends RESUME with the reason `operator resume`. Each timer cancels itself after it fires, so each command is sent once. It uses timers only, no sleep.
+`operator_node` runs at the root namespace. 13 s after it starts it sends STOP on `/emergency_stop`, and 5 s later RESUME. It uses timers, not sleep.
 
 ### R7: Launch files
 
-`robots_launch.py` declares `two_robots` (default `false`). The helper `make_robot(namespace, condition=None)` returns a `GroupAction` with `PushROSNamespace`, and `patrol_exe`, `stand_in_robot_exe` and `mission_exe`, with the condition on each of the three nodes. `robot_1` always starts. `robot_2` starts only when `two_robots` is true.
+`robots_launch.py` starts `robot_1`, and `robot_2` only when `two_robots:=true`. Each robot is a group with its namespace and `patrol_exe`, `stand_in_robot_exe` and `mission_exe`.
 
-`patrol_launch.py` includes `robots_launch.py`, declares `with_operator` (default `true`) for `operator_exe`, and prints both arguments with `LogInfo`. An argument given on the outer command, such as `two_robots:=true`, reaches the included file.
-
-### How to run
-
-From the workspace root (the folder that contains `src/`):
-
-```bash
-colcon build --packages-up-to gp1_patrol
-source install/setup.bash
-```
-
-Start the whole patrol:
-
-```bash
-ros2 launch gp1_patrol patrol_launch.py                      # robot_1 and the operator
-ros2 launch gp1_patrol patrol_launch.py two_robots:=true     # robot_1, robot_2 and the operator
-ros2 launch gp1_patrol patrol_launch.py with_operator:=false # no operator
-ros2 launch gp1_patrol patrol_launch.py --show-args          # list the arguments
-```
-
-List the running nodes from a second terminal (source the workspace there too):
-
-```bash 
-ros2 node list
-```
-
-With `two_robots:=true` it should show:
-
-``` expected
-/operator_node
-/robot_1/mission_node
-/robot_1/navigation_node
-/robot_1/patrol_log_node
-/robot_1/stand_in_robot_node
-/robot_2/mission_node
-/robot_2/navigation_node
-/robot_2/patrol_log_node
-/robot_2/stand_in_robot_node
-```
-
-To run the nodes one at a time without a launch file:
-
-```bash
-ros2 run gp1_patrol mission_exe --ros-args -r __ns:=/robot_1
-ros2 run gp1_patrol operator_exe
-```
-
-### R8: Demo
-
-`run_demo.sh` builds the workspace, runs `patrol_launch.py` and writes the output to `evidence/demo.log`.
+`patrol_launch.py` includes `robots_launch.py`, starts `operator_exe` unless `with_operator:=false`, and prints both arguments.

@@ -87,8 +87,8 @@ namespace gp1_patrol {
             /// @brief Calls control_callback every 100 ms
             rclcpp::TimerBase::SharedPtr control_timer_;
             double x_{0.0}; ///< position, in m
-            double y_{0.0};  ///< position, in m
-            double yaw_{0.0};  ///< heading, in rad
+            double y_{0.0}; ///< position, in m
+            double yaw_{0.0}; ///< heading, in rad
             bool has_odometry_{false}; ///< true once the first odometry arrived
             bool stopped_{false}; ///< true from a STOP to the next RESUME
             bool waiting_for_report_{false}; ///< true from an arrival to its report

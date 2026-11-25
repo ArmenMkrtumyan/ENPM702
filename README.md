@@ -10,7 +10,7 @@
 
 **Member A:** AI was used (ChatGPT) for parts R1, R2, R3 to help me understand and document concepts and structures, and review code and suggest fixes. Also, it helped with creating Doxygen comments and git commands.
 
-**Member B:** AI was used (Claude) for parts R4 and R5 to review my code and README answers, help with git merges. Also, it helped to review the code I have written, suggesting fixes wherever necessary. It also polished the Doxygen comments.
+**Member B:** AI was used (Claude) for parts R4 and R5 to review my code and README answers, suggest fixes wherever necessary, and help with git merges. It also polished the Doxygen comments.
 
 **Member C:** AI (Gemini) was used to understand concepts and structure, how to write the Python launch files, and how git merge, pull and commit work. Claude was used to review and debug code and to suggest fixes for minor warnings. AI was also used to format the README for readability.
 
@@ -19,6 +19,7 @@
 From the workspace root
 
 ```bash
+source /opt/ros/jazzy/setup.bash
 colcon build
 source install/setup.bash
 ```
@@ -83,6 +84,8 @@ Logs: `evidence/patrol_single_exe_run1.log` to `run3.log` and `evidence/patrol_e
 | 2 | 480.3 | 0.5 |
 | 3 | 508.9 | 0.2 |
 
+**Note on the timestamps.** The logs were recorded in a VMware VM, whose system clock jumps forward about 3.6 s every 36 s. That is why the logs show gaps of about 5.6 s between patrol log lines instead of 2 s, and why in most R5 logs the RESUME appears 8.6 s after the STOP instead of 5 s. The jumps never fall between a command being sent and received, so they do not change the delays in the table or the conclusions.
+
 1. Why does the STOP wait in `patrol_single_exe`, and which callback does it wait for?
 
 Since it's a SingleThreadedExecutor, there is only one thread, so the callbacks of both nodes run
@@ -99,11 +102,12 @@ the other thread runs the navigation node's STOP callback: 0.2 to 2.4 ms.
 
 3. Why do the navigation node’s callbacks stay in one mutually exclusive group? Say what could go wrong in a reentrant group.
 
-The navigation node's callbacks share the same variables (such as `position`, `stopped_`,
-`checkpoint_index_`). A mutually exclusive group makes sure that when one callback is working on them,
+The navigation node's callbacks share the same variables (such as position variables `x_` and `y_`).
+A mutually exclusive group makes sure that when one callback is working on them,
 the others can't access them at the same time, which would cause race conditions. In a reentrant
-group the callbacks can run at the same time. For example, the STOP callback can publish a zero
-Twist while the control callback publishes a drive command right after it, so the robot keeps moving.
+group the callbacks can run at the same time. For example, a report that arrives
+between publishing the `Arrival` and setting `waiting_for_report_` would be ignored, and the robot would
+wait at that checkpoint forever.
 
 4. Why does the robot fail to arrive in `patrol_single_exe`?
 

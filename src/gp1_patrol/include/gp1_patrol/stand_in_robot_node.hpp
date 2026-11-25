@@ -6,17 +6,12 @@
 
 #pragma once
 
-
 #include <geometry_msgs/msg/twist.hpp>
 #include <nav_msgs/msg/odometry.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/laser_scan.hpp>
 #include <chrono>
 #include <functional>
-
-
-
-
 
 namespace gp1_patrol
 {
@@ -26,8 +21,7 @@ namespace gp1_patrol
  * the checkpoint table. Logs once each time the robot comes within 0.3 m of a
  * checkpoint.
  */
-class StandInRobotNode:public rclcpp::Node{
-
+class StandInRobotNode : public rclcpp::Node {
 
     public:
         /**
@@ -47,15 +41,13 @@ class StandInRobotNode:public rclcpp::Node{
             scan_publisher_{create_publisher<sensor_msgs::msg::LaserScan>("scan", 10)},
             last_time_updated_{now()} {}
 
-
-
     private:
         /**
          * @brief Stores the commanded velocities for the next odometry tick
          *
          * @param msg The command; only linear.x and angular.z are used
          */
-        void callback_command_velocity(const geometry_msgs::msg::Twist::ConstSharedPtr msg);
+        void callback_command_velocity(const geometry_msgs::msg::Twist &msg);
         /// @brief Velocity commands, from cmd_vel
         rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr command_velocity_subscriber_;
 
@@ -90,8 +82,6 @@ class StandInRobotNode:public rclcpp::Node{
 
         int last_near_checkpoint_{-1}; ///< index of the checkpoint within 0.3 m; -1 = none
 
-
 };
-
 
 } // namespace gp1_patrol

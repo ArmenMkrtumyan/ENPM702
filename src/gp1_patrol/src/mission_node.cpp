@@ -1,6 +1,6 @@
 /**
  * @file mission_node.cpp
- * @author mbabalol
+ * @author Mubarak Babalola
  * @brief methods for missionnode
  */
 
@@ -26,7 +26,7 @@ namespace gp1_patrol {
         }
 
         const float range_m{latest_scan_.ranges[latest_scan_.ranges.size() / 2]};
-        const bool is_short{range_m < kShortRange_m};
+        const bool is_short{range_m < short_range_m};
 
         InspectionReport report{};
         report.header.stamp = now();
@@ -45,10 +45,10 @@ namespace gp1_patrol {
             result_name = is_short ? "blocked" : "clear";
         }
 
-        report_publisher_ -> publish(report);
         RCLCPP_INFO_STREAM(get_logger(), "checkpoint " << msg.checkpoint_id << " (" << kind_name << "): "
                                                         << result_name << ", range " << std::fixed
                                                         << std::setprecision(1) << range_m << " m");
+        report_publisher_ -> publish(report);
     }
-    
-} // namespace gp1_patrol 
+
+} // namespace gp1_patrol

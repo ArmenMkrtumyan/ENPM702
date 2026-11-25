@@ -1,8 +1,8 @@
 /**
  * @file operator_node.cpp
- * @author mbabalol
- * @brief Methods for OperatorNodes. 
- * 
+ * @author Mubarak Babalola
+ * @brief Methods for OperatorNodes.
+ *
  */
 
 #include "gp1_patrol/operator_node.hpp"
@@ -14,7 +14,7 @@ namespace gp1_patrol {
     void OperatorNode::on_stop_timer(){
         stop_timer_-> cancel();
         send_command(StopCommand::STOP, "STOP", "operator stop");
-        resume_timer_ = create_wall_timer(kResumeDelay, std::bind(&OperatorNode::on_resume_timer, this));
+        resume_timer_ = create_wall_timer(resume_delay, std::bind(&OperatorNode::on_resume_timer, this));
 
     }
 

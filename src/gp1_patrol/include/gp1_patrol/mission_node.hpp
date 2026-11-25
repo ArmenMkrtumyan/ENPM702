@@ -1,8 +1,8 @@
 /**
  * @file mission_node.hpp
- * @author mbabalola
+ * @author Mubarak Babalola
  * @brief Declaration of MissionNode, turns arrival into inspection reports
- * 
+ *
  */
 #pragma once
 
@@ -13,51 +13,50 @@
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/laser_scan.hpp>
 
-
 namespace gp1_patrol {
 
     /**
      * @brief Inspect a Checkpoint when robot arrives.
-     * 
+     *
      * Node keeps latest laser scan, on each arrival reads middle beam and publishes inspection report
-     * which includes clear/blocked rooms, doors; open/closed door. A range under kShortRange_m counts as short.
-     * 
+     * which includes clear/blocked rooms, doors; open/closed door. A range under short_range_m counts as short.
+     *
      * Topics; Subscribe(sensor_msgs/msg/LaserScan, gp1_interfaces/msg/Arrival)
      *         publish(gp1_interfaces/msg/InspectionReport)
-     * 
+     *
      */
     class MissionNode : public rclcpp::Node {
         public:
         /**
          * @brief Construct a new Mission Node object and its publisher and 2 subscription.
-         * 
+         *
          */
-        MissionNode() : rclcpp::Node{"mission_node"}, 
+        MissionNode() : rclcpp::Node{"mission_node"},
         scan_subscription_{create_subscription < sensor_msgs::msg::LaserScan > (
-            "scan", 10, std::bind(&MissionNode::on_scan, this, std::placeholders::_1))}, 
+            "scan", 10, std::bind(&MissionNode::on_scan, this, std::placeholders::_1))},
         arrival_subscription_{create_subscription < gp1_interfaces::msg::Arrival> (
             "arrival", 10, std::bind(&MissionNode::on_arrival, this, std::placeholders::_1))},
         report_publisher_{create_publisher < gp1_interfaces::msg::InspectionReport > (
             "inspection_report", 10)} {}
-        
+
         private:
 
         /**
          * @brief stores newest scan
-         * 
-         * @param msg the scan received. 
+         *
+         * @param msg the scan received.
          */
         void on_scan(const sensor_msgs::msg::LaserScan& msg);
 
         /**
          * @brief decides the results of each checkpoint and publish report.
-         * 
-         * @param msg arrival msg that triggers inspection 
+         *
+         * @param msg arrival msg that triggers inspection
          */
         void on_arrival(const gp1_interfaces::msg::Arrival& msg);
 
-        /// ranges under this values indicates closed in m
-        static constexpr float kShortRange_m{1.0F};
+        /// @brief A range under this, in m, is short: room blocked or door closed
+        static constexpr float short_range_m{1.0F};
 
         /// @brief receives scans
         rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr scan_subscription_;

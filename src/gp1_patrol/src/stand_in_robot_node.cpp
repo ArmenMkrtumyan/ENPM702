@@ -13,19 +13,15 @@
 namespace gp1_patrol
 {
 
-
-
-    void StandInRobotNode::callback_command_velocity(const geometry_msgs::msg::Twist::ConstSharedPtr msg)
+    void StandInRobotNode::callback_command_velocity(const geometry_msgs::msg::Twist &msg)
     {
-      linear_velocity_ = msg->linear.x;
-      angular_velocity_ = msg->angular.z;
+        linear_velocity_ = msg.linear.x;
+        angular_velocity_ = msg.angular.z;
     }
-
-
 
     void StandInRobotNode::callback_odometry_timer()
     {
-        auto time_now{(*this).now()};
+        auto time_now{now()};
         double elapsed_time{(time_now - last_time_updated_).seconds()};
         last_time_updated_ = time_now;
         x_ = x_+ linear_velocity_ * std::cos(yaw_) * elapsed_time;
@@ -45,15 +41,13 @@ namespace gp1_patrol
         odometry_msg.pose.pose.orientation = quaternion_from_yaw(yaw_);
         odometry_msg.twist.twist.linear.x = linear_velocity_;
         odometry_msg.twist.twist.angular.z = angular_velocity_;
-        (*odometry_publisher_).publish(odometry_msg);
-      }
+        odometry_publisher_->publish(odometry_msg);
+    }
 
-
-       void StandInRobotNode::callback_scan_timer()
+    void StandInRobotNode::callback_scan_timer()
     {
-
         sensor_msgs::msg::LaserScan scan_msg{};
-        scan_msg.header.stamp = (*this).now();
+        scan_msg.header.stamp = now();
         scan_msg.angle_min = -0.1F;
         scan_msg.angle_max = 0.1F;
         scan_msg.angle_increment = 0.1F;
@@ -66,40 +60,34 @@ namespace gp1_patrol
         int current_near_checkpoint{-1};
 
         for (std::size_t i{0}; i < kCheckpoints.size(); ++i)
-          {
+        {
             const auto& checkpoint{kCheckpoints[i]};
-            auto distance_bw_robot_and_scan{distance_between(x_, y_, checkpoint.x, checkpoint.y)};
+            auto distance_to_checkpoint_m{distance_between(x_, y_, checkpoint.x, checkpoint.y)};
 
-            if (distance_bw_robot_and_scan <= kNearDistanceM)
-              {
+            if (distance_to_checkpoint_m <= kNearDistanceM)
+            {
                 scan_msg.ranges[0] = checkpoint.scan_range_m;
                 scan_msg.ranges[1] = checkpoint.scan_range_m;
                 scan_msg.ranges[2] = checkpoint.scan_range_m;
                 current_near_checkpoint = static_cast<int>(i);
                 break;
-              }
-          }
+            }
+        }
 
         if (current_near_checkpoint != last_near_checkpoint_)
-          {
-              if (current_near_checkpoint != -1)
-              {
-                  RCLCPP_INFO(
-                      (*this).get_logger(),
-                      "stand-in robot near checkpoint %d",
-                      current_near_checkpoint + 1
-                  );
-              }
+        {
+            if (current_near_checkpoint != -1)
+            {
+                RCLCPP_INFO(
+                    get_logger(),
+                    "stand-in robot near checkpoint %d",
+                    current_near_checkpoint + 1
+                );
+            }
 
-              last_near_checkpoint_ = current_near_checkpoint;
-          }
+            last_near_checkpoint_ = current_near_checkpoint;
+        }
 
-
-        (*scan_publisher_).publish(scan_msg);
-      }
-}
-
-
-
-
-
+        scan_publisher_->publish(scan_msg);
+    }
+} // namespace gp1_patrol

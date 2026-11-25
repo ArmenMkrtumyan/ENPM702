@@ -40,8 +40,8 @@ namespace gp1_patrol {
                 arrival.header.stamp = now();
                 arrival.checkpoint_id = static_cast<std::uint32_t>(checkpoint_index_ + 1);
                 arrival.kind = target.kind;
-                arrival_publisher_->publish(arrival);
                 RCLCPP_INFO_STREAM(get_logger(), "arrived at checkpoint " << arrival.checkpoint_id);
+                arrival_publisher_->publish(arrival);
                 waiting_for_report_ = true;
             }
             else {

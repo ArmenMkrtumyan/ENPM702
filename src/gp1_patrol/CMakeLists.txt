@@ -25,7 +25,7 @@ find_package(gp1_interfaces REQUIRED)
 include_directories(include)
 
 add_executable(stand_in_robot_exe src/stand_in_robot_main.cpp
-src/stand_in_robot_node.cpp)
+  src/stand_in_robot_node.cpp)
 ament_target_dependencies(stand_in_robot_exe rclcpp geometry_msgs nav_msgs
   sensor_msgs gp1_interfaces)
 

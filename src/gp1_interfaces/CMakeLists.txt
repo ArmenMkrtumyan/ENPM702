@@ -10,9 +10,9 @@ find_package(std_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
 set(GP1_MESSAGE_FILES
-"msg/Arrival.msg"
-"msg/InspectionReport.msg"
-"msg/StopCommand.msg"
+  "msg/Arrival.msg"
+  "msg/InspectionReport.msg"
+  "msg/StopCommand.msg"
 )
 
 # Generates C++ and Python code for each interface file.

@@ -1,8 +1,8 @@
 /**
  * @file operator_node.hpp
- * @author mbabalol
+ * @author Mubarak Babalola
  * @brief Operator Node
- * 
+ *
  */
 
 #pragma once
@@ -17,6 +17,10 @@
 
 namespace gp1_patrol{
 
+    /**
+     * @brief Sends STOP on /emergency_stop 13 s after it starts, then RESUME
+     * 5 s later, with one-shot timers.
+     */
     class OperatorNode : public rclcpp::Node {
         public:
 
@@ -24,25 +28,25 @@ namespace gp1_patrol{
          * @brief Construct a new Operator Node object.
          * after certain time after start publish stop
          * after ceratin time after stop publish resume
-         * 
+         *
          * topics: publishes: /emergency_stop (gp1_interfaces/msg/StopCommand)
-         * 
+         *
          */
         OperatorNode() : rclcpp::Node{"operator_node"}, command_publisher_{
             create_publisher<gp1_interfaces::msg::StopCommand>("/emergency_stop", 10)},
-        stop_timer_{create_wall_timer(kStopDelay, std::bind(&OperatorNode::on_stop_timer, this))} {}
+        stop_timer_{create_wall_timer(stop_delay, std::bind(&OperatorNode::on_stop_timer, this))} {}
 
         private:
 
         /**
-         * @brief send stop and begins the resume timer after kStopDelay on start
-         * 
+         * @brief send stop and begins the resume timer after stop_delay on start
+         *
          */
         void on_stop_timer();
 
         /**
-         * @brief sends resume after kResumeDelay after stop command was sent
-         * 
+         * @brief sends resume after resume_delay after stop command was sent
+         *
          */
         void on_resume_timer();
 
@@ -53,10 +57,10 @@ namespace gp1_patrol{
         void send_command(std::uint8_t command, const std::string& label, const std::string& reason);
 
         /// @brief timer from node start to stop
-        static constexpr std::chrono::seconds kStopDelay{13};
+        static constexpr std::chrono::seconds stop_delay{13};
 
         /// @brief time from stop to resume
-        static constexpr std::chrono::seconds kResumeDelay{5};
+        static constexpr std::chrono::seconds resume_delay{5};
 
         /// @brief /emergency stop command
         rclcpp::Publisher<gp1_interfaces::msg::StopCommand>::SharedPtr command_publisher_;
